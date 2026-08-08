@@ -1,0 +1,23 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+.cache/
+
+# Local development and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Generated or private data
+data/generated/
+data/local/
+*.log
+coverage/
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
+
