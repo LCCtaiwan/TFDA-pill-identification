@@ -126,28 +126,54 @@ function displayValue(value) {
 }
 
 export function formatConsultationRecord(record) {
-  const scoreLabels = (record.scores || [])
-    .filter((value) => typeof value === "boolean")
-    .map((value) => value ? "有分割線" : "無分割線");
-  const marking = [
-    displayValue(record.imprints),
-    [...new Set(scoreLabels)].join("／")
-  ].filter((value) => value && value !== "資料未提供").join("；") || "資料未提供";
+  const marking = (record.imprints || []).filter(Boolean).join(" / ") || "資料未提供";
+  const ingredientNames = (record.ingredients || []).map((item) => item.name).filter(Boolean);
+  const genericName = ingredientNames.join(" + ")
+    || String(record.genericName || "").replace(/[；;]+/gu, " + ")
+    || "資料未提供";
+  const brandName = record.brandName || record.nameEn || "資料未提供";
+  const strength = formatConsultationStrength(record);
 
-  const genericName = record.genericName
-    || (record.ingredients || []).map((item) => item.name).filter(Boolean).join("；");
-
-  return [
-    `刻痕／標註：${marking}`,
-    `藥名（成分）：${displayValue(genericName)}`,
-    `商品名：${displayValue(record.brandName || record.nameEn)}`,
-    `含量規格：${displayValue(record.strengths)}`,
-    `許可證字號：${displayValue(record.licenseNumber)}`
-  ].join("\n");
+  return `${marking} ${genericName} ${brandName} ${strength}`;
 }
 
 export function formatConsultationDraft(records) {
-  return records
-    .map((record, index) => `【辨識藥品 ${index + 1}】\n${formatConsultationRecord(record)}`)
-    .join("\n\n");
+  return records.map(formatConsultationRecord).join("\n");
+}
+
+function normalizeConsultationUnit(unit) {
+  const normalized = String(unit || "").trim().toUpperCase();
+  return ({ MG: "mg", GM: "g", G: "g", MCG: "mcg", UG: "mcg", ML: "mL", IU: "IU", U: "U" })[normalized]
+    || unit
+    || "";
+}
+
+function doseBasisFromLabel(label) {
+  const normalized = String(label || "").normalize("NFKC").toUpperCase();
+  if (/EACH\s+TABLETS?\b/u.test(normalized)) return "tab";
+  if (/EACH\s+CAPSULES?\b/u.test(normalized)) return "cap";
+  if (/EACH\s+PILLS?\b/u.test(normalized)) return "pill";
+  if (/EACH\s+(?:GM|G)\b/u.test(normalized)) return "g";
+  if (/EACH\s+ML\b/u.test(normalized)) return "mL";
+  return "";
+}
+
+function doseBasisFromDosageForm(dosageForm) {
+  const normalized = String(dosageForm || "").normalize("NFKC");
+  if (normalized.includes("錠")) return "tab";
+  if (normalized.includes("膠囊")) return "cap";
+  if (normalized.includes("丸")) return "pill";
+  return "";
+}
+
+export function formatConsultationStrength(record) {
+  const ingredients = record.ingredients || [];
+  const amounts = ingredients
+    .filter((item) => item.amount || item.unit)
+    .map((item) => [item.amount, normalizeConsultationUnit(item.unit)].filter(Boolean).join(" "));
+  const basis = ingredients.map((item) => doseBasisFromLabel(item.label)).find(Boolean)
+    || doseBasisFromDosageForm(record.dosageForm);
+
+  if (amounts.length) return `${amounts.join(" + ")}${basis ? `/${basis}` : ""}`;
+  return displayValue(record.strengths);
 }

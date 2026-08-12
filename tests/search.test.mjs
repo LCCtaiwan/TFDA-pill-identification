@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   formatConsultationDraft,
   formatConsultationRecord,
+  formatConsultationStrength,
   matchImprint,
   normalizeImprint,
   searchPills,
@@ -15,12 +16,16 @@ const completeRecord = {
   brandName: "測試錠10毫克",
   nameEn: "TEST TABLETS 10MG",
   genericName: "ALPHA；BETA",
+  dosageForm: "錠劑",
   imprints: ["APO-10", "BETA"],
   colors: ["白"],
   shapes: ["圓形"],
   scores: [true],
   strengths: ["ALPHA 10 MG", "BETA 0.5 MG"],
-  ingredients: [],
+  ingredients: [
+    { name: "ALPHA", amount: "10", unit: "MG", label: "EACH TABLET CONTAINS:" },
+    { name: "BETA", amount: "0.5", unit: "MG", label: "EACH TABLET CONTAINS:" }
+  ],
   images: []
 };
 
@@ -64,11 +69,10 @@ test("已知不符被排除，missing data 保留並排在後方", () => {
   assert.deepEqual(results[1].missingFields, ["顏色"]);
 });
 
-test("諮詢文字含刻痕、藥名、商品名、含量與許可證", () => {
+test("諮詢文字每顆一行，只含刻痕、學名、商品名與含量規格", () => {
   const recordText = formatConsultationRecord(completeRecord);
-  assert.match(recordText, /刻痕／標註：APO-10；BETA；有分割線/);
-  assert.match(recordText, /藥名（成分）：ALPHA；BETA/);
-  assert.match(recordText, /商品名：測試錠10毫克/);
-  assert.match(recordText, /含量規格：ALPHA 10 MG；BETA 0.5 MG/);
-  assert.match(formatConsultationDraft([completeRecord, missingRecord]), /【辨識藥品 2】/);
+  assert.equal(recordText, "APO-10 / BETA ALPHA + BETA 測試錠10毫克 10 mg + 0.5 mg/tab");
+  assert.equal(formatConsultationStrength(completeRecord), "10 mg + 0.5 mg/tab");
+  assert.equal(formatConsultationDraft([completeRecord, missingRecord]).split("\n").length, 2);
+  assert.doesNotMatch(recordText, /許可證/);
 });

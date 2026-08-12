@@ -55,7 +55,7 @@ index.html + app.js + src/pill-search.js
 
 - 搜尋刻字依序分為 Exact、Prefix、Contains；單一字元不允許 Contains。
 - 顏色、形狀與刻痕採確定性 AND 篩選；缺值不是不符合，而是 `unknown`。
-- 已確認候選可累積成諮詢紀錄，輸出刻痕／標註、藥名（成分）、商品名、含量規格與許可證字號。
+- 已確認候選可累積成諮詢紀錄；依使用者指定，每顆一行且只輸出「刻痕 學名 商品名 含量規格」，不附標籤或許可證。
 - Actions 的更新 job 可排程或手動觸發；資料有實質變更才 commit。Pages 由獨立 workflow 部署靜態檔案。
 
 ## Completed Work
