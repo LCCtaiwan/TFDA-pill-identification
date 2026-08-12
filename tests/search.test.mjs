@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  COLORS,
+  SHAPES,
   formatConsultationDraft,
   formatConsultationRecord,
   formatConsultationStrength,
@@ -47,6 +49,12 @@ const missingRecord = {
 test("刻痕 normalization 將常見分隔符轉成相同 token", () => {
   assert.equal(normalizeImprint(" apo／10 "), "APO 10");
   assert.deepEqual(tokenizeImprint("APO-10"), ["APO", "10"]);
+});
+
+test("外觀按鈕使用固定詞彙，不依賴首次資料匯入", () => {
+  assert.deepEqual(COLORS.slice(0, 5), ["白", "黃", "橘", "紅", "粉"]);
+  assert.ok(SHAPES.includes("圓形"));
+  assert.ok(SHAPES.includes("橢圓形"));
 });
 
 test("刻痕依 Exact、Prefix、Contains 分級", () => {

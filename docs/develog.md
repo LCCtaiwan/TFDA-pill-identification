@@ -6,6 +6,8 @@
 
 目前追加 `C-003`：依作者實際網站互動校正顏色／形狀複選、候選即時呈現與 TFDA 刻痕詞彙。
 
+目前追加 `C-004`：修正空資料時外觀按鈕也跟著消失，讓介面與資料首建解耦。
+
 ## Stack And Run Commands
 
 - 前端：HTML5、CSS3、Vanilla JavaScript。
@@ -89,6 +91,11 @@ index.html + app.js + src/pill-search.js
 - 已完成顏色／形狀複選 chips、刻痕單選 chips、無條件開始提示與即時下方結果。
 - 已修正 ETL 直接保留 TFDA 刻痕原值，並新增複選與刻痕詞彙測試。
 - `npm run check`：pass；10 tests，0 failure。
+
+### C-004 — 2026-08-12
+
+- 顏色與形狀按鈕改用 `pill-search.js` 的固定受控詞彙，不再從已載入記錄動態建立。
+- 空資料集仍會顯示完整可選介面；候選區維持誠實的資料尚未建立提示。
 
 ## Accepted / Rejected Outputs
 

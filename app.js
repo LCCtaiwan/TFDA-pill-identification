@@ -1,4 +1,4 @@
-import { formatConsultationDraft, searchPills } from "./src/pill-search.js";
+import { COLORS, SHAPES, formatConsultationDraft, searchPills } from "./src/pill-search.js";
 
 const DISPLAY_LIMIT = 60;
 const state = {
@@ -252,8 +252,8 @@ async function loadData() {
     }
     state.dataset = dataset;
     state.records = dataset.records;
-    addChoiceOptions(elements.colors, state.records.flatMap((record) => record.colors || []), "colors");
-    addChoiceOptions(elements.shapes, state.records.flatMap((record) => record.shapes || []), "shapes");
+    addChoiceOptions(elements.colors, COLORS, "colors");
+    addChoiceOptions(elements.shapes, SHAPES, "shapes");
     elements.status.textContent = dataset.records.length
       ? `已載入 ${dataset.records.length.toLocaleString()} 筆；資料版本 ${dataset.generatedAt ? new Date(dataset.generatedAt).toLocaleString("zh-TW") : "未提供"}${dataset.partial ? "（部分資料）" : ""}`
       : "資料結構已就緒，但尚未執行第一次 TFDA 更新。";

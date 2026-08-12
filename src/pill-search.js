@@ -5,6 +5,16 @@ const LEVEL_RANK = {
   unknown: 0
 };
 
+// 介面固定顯示的 TFDA 外觀詞彙，不依賴資料是否已完成首次匯入。
+export const COLORS = [
+  "白", "黃", "橘", "紅", "粉", "綠", "藍", "紫", "棕", "灰", "黑", "透明", "藍綠"
+];
+
+export const SHAPES = [
+  "圓形", "橢圓形", "膠囊", "四邊形", "三角形", "五邊形", "六邊形", "八邊形",
+  "水滴形", "雙圓形", "液劑(包含糖漿用粉劑)", "顆粒劑、粉劑或散劑", "其他"
+];
+
 export function normalizeImprint(value = "") {
   return String(value)
     .normalize("NFKC")
