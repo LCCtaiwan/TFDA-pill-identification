@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: tfda-data-update
@@ -39,13 +40,22 @@ jobs:
         run: npm run validate:data -- --require-data
 
       - name: Commit changed data
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/appearance_data.json images
           if git diff --staged --quiet; then
             echo "TFDA 資料與圖片沒有實質變更。"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "C-002 chore: update TFDA data $(date +'%Y-%m-%d')"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Deploy updated site
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main

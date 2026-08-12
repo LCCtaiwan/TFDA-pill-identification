@@ -20,6 +20,7 @@ GL 500 Metformin Glucophage 500 mg/tab
 - 每批固定筆數、有限 concurrency；圖片來源 URL 未變且 WebP 存在時直接重用。
 - GitHub Actions 每週自動更新，也可從 Actions 頁面手動執行。
 - GitHub Pages 使用獨立 workflow 發布 HTML／CSS／Vanilla JS／JSON／WebP。
+- 資料 workflow 推送完成後會直接啟動 Pages：首次匯入在文字資料完成後先發布一次，圖片全部完成後再發布一次。
 
 ## 官方資料來源
 
@@ -84,8 +85,10 @@ GitHub Actions
   ├─ 驗證 JSON、圖片存在、WebP 尺寸與總容量
   └─ 有實質變更才 commit / push
           ↓
-     Pages workflow 自動重新發布
+     資料 workflow 明確啟動 Pages 重新發布
 ```
+
+GitHub 內建權限產生的 `git push` 不會再觸發另一個 `push` workflow，因此資料更新流程會用 `workflow_dispatch` 明確啟動 `pages.yml`。
 
 圖片依許可證 SHA-256 前綴分散到 `images/00/` 至 `images/ff/`，避免單一目錄放入數千檔案。驗證器在圖片超過 950 MiB 時中止 commit，為 GitHub Pages 的 1 GB site limit 保留餘裕。
 

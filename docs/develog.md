@@ -10,6 +10,8 @@
 
 目前追加 `C-005`：改採原作者式可續傳首建，先發布文字資料，再分六批保存圖片進度。
 
+目前追加 `C-006`：資料 workflow 推送後明確呼叫 Pages，避免 GitHub 內建權限的遞迴觸發限制讓網站停在舊資料。
+
 ## Stack And Run Commands
 
 - 前端：HTML5、CSS3、Vanilla JavaScript。
@@ -105,6 +107,13 @@ index.html + app.js + src/pill-search.js
 - `--no-images` 會保留來源 URL 未變且檔案仍存在的既有 WebP，不破壞續傳進度。
 - 新首建 workflow 先提交完整文字資料，再逐批提交 JSON 與 WebP；最後要求不存在 `unprocessed` 圖片。
 - `npm run check`：pass；12 tests，0 failure。
+
+### C-006 — 2026-08-12
+
+- 確認根因：Actions 使用內建權限執行的 `git push` 不會再觸發另一個 `push` workflow。
+- 手動執行 Pages run `31610906540`：pass；公開 JSON 已驗證為 6,295 筆、2,253 張可用圖片。
+- 首次匯入新增文字資料完成與全部圖片完成兩個 Pages dispatch；每週更新在資料有變更時 dispatch。
+- 原首建 run `31608339584` 已在第三批成功提交後停止；第四批未提交內容捨棄，待 `C-006` 推送後以既有續傳參數從第四批重跑。
 
 ## Accepted / Rejected Outputs
 
