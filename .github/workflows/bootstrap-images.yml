@@ -1,0 +1,75 @@
+name: Bootstrap TFDA data and images
+
+on:
+  workflow_dispatch:
+    inputs:
+      batches:
+        description: "圖片總批數"
+        default: "6"
+        required: true
+      from:
+        description: "從第幾批開始（續傳用）"
+        default: "1"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tfda-data-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies and test
+        run: npm ci && npm test
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Publish searchable text data first
+        run: |
+          npm run update:data -- --no-images
+          npm run validate:data -- --require-data
+          git add data/appearance_data.json
+          if ! git diff --staged --quiet; then
+            git commit -m "C-005 chore: bootstrap searchable TFDA data"
+            git push
+          fi
+
+      - name: Build image batches with resumable commits
+        env:
+          BATCHES: ${{ inputs.batches }}
+          FROM_BATCH: ${{ inputs.from }}
+        run: |
+          set -euo pipefail
+          for batch in $(seq "$FROM_BATCH" "$BATCHES"); do
+            npm run update:data -- \
+              --image-batch-index "$batch" \
+              --image-batch-count "$BATCHES" \
+              --batch-size 50 \
+              --concurrency 8
+            npm run validate:data -- --require-data
+            git add data/appearance_data.json images
+            if ! git diff --staged --quiet; then
+              git commit -m "C-005 chore: bootstrap image batch $batch/$BATCHES"
+              git push
+            fi
+          done
+
+      - name: Require all image batches complete
+        run: npm run validate:data -- --require-data --require-images-complete

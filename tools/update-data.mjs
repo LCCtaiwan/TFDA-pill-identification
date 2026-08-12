@@ -255,7 +255,10 @@ export async function writeWebp(bytes, outputPath) {
 
 async function processRecordImages(record, previousRecord, options, stats) {
   if (options.noImages) {
-    record.images = record.sourceImageUrls.map((sourceUrl) => ({ sourceUrl, path: null, status: "unprocessed" }));
+    const plans = await buildImagePlan(record, previousRecord, options);
+    record.images = plans.map((plan) => plan.action === "reuse"
+      ? plan.image
+      : { sourceUrl: plan.sourceUrl, path: null, status: "unprocessed" });
     return;
   }
 
@@ -287,6 +290,17 @@ async function processRecordImages(record, previousRecord, options, stats) {
 
   if (!plans.length) stats.missing += 1;
   record.images = images;
+}
+
+export function imageBatchBounds(recordCount, batchIndex, batchCount) {
+  if (!Number.isInteger(batchIndex) || !Number.isInteger(batchCount)
+    || batchIndex < 1 || batchCount < 1 || batchIndex > batchCount) {
+    throw new Error("圖片批次必須符合 1 <= index <= count");
+  }
+  return {
+    start: Math.floor(recordCount * (batchIndex - 1) / batchCount),
+    end: Math.floor(recordCount * batchIndex / batchCount)
+  };
 }
 
 async function mapWithConcurrency(items, concurrency, worker) {
@@ -329,6 +343,8 @@ export function parseArgs(argv) {
     batchSize: 50,
     concurrency: 4,
     limit: null,
+    imageBatchIndex: null,
+    imageBatchCount: null,
     allowSmall: false,
     noImages: false
   };
@@ -350,6 +366,8 @@ export function parseArgs(argv) {
     else if (argument === "--batch-size") options.batchSize = Number(nextValue());
     else if (argument === "--concurrency") options.concurrency = Number(nextValue());
     else if (argument === "--limit") options.limit = Number(nextValue());
+    else if (argument === "--image-batch-index") options.imageBatchIndex = Number(nextValue());
+    else if (argument === "--image-batch-count") options.imageBatchCount = Number(nextValue());
     else if (argument === "--allow-small") options.allowSmall = true;
     else if (argument === "--no-images") options.noImages = true;
     else if (argument === "--help") options.help = true;
@@ -361,6 +379,12 @@ export function parseArgs(argv) {
   }
   if (options.limit !== null && (!Number.isInteger(options.limit) || options.limit < 1)) {
     throw new Error("--limit 必須是正整數");
+  }
+  if ((options.imageBatchIndex === null) !== (options.imageBatchCount === null)) {
+    throw new Error("--image-batch-index 與 --image-batch-count 必須一起提供");
+  }
+  if (options.imageBatchIndex !== null) {
+    imageBatchBounds(1, options.imageBatchIndex, options.imageBatchCount);
   }
   return options;
 }
@@ -376,6 +400,8 @@ function showHelp() {
 --batch-size <n>                 每批筆數（預設 50）
 --concurrency <n>                每批同時處理數（預設 4）
 --limit <n>                      僅處理前 n 筆，輸出會標記 partial
+--image-batch-index <n>          首建圖片的第 n 批（從 1 開始）
+--image-batch-count <n>          首建圖片總批數，須與 index 一起提供
 --allow-small                    fixture／小批次測試時略過最低筆數 gate
 --no-images                      只建資料，不下載圖片`);
 }
@@ -412,10 +438,23 @@ export async function runUpdate(rawOptions = {}) {
   const previousByLicense = new Map((previous?.records || []).map((record) => [record.licenseNumber, record]));
   const stats = { processed: 0, reused: 0, failed: 0, missing: 0 };
 
-  for (let start = 0; start < records.length; start += options.batchSize) {
-    const batch = records.slice(start, start + options.batchSize);
+  let imageRecords = records;
+  if (options.imageBatchIndex !== null) {
+    const { start, end } = imageBatchBounds(records.length, options.imageBatchIndex, options.imageBatchCount);
+    imageRecords = records.slice(start, end);
+    const selected = new Set(imageRecords.map((record) => record.licenseNumber));
+    for (const record of records) {
+      if (!selected.has(record.licenseNumber)) {
+        await processRecordImages(record, previousByLicense.get(record.licenseNumber), { ...options, noImages: true }, stats);
+      }
+    }
+    console.log(`首建圖片大批次 ${options.imageBatchIndex}/${options.imageBatchCount}（記錄 ${start + 1}-${end}）`);
+  }
+
+  for (let start = 0; start < imageRecords.length; start += options.batchSize) {
+    const batch = imageRecords.slice(start, start + options.batchSize);
     const batchNumber = Math.floor(start / options.batchSize) + 1;
-    const batchTotal = Math.ceil(records.length / options.batchSize);
+    const batchTotal = Math.ceil(imageRecords.length / options.batchSize);
     console.log(`圖片批次 ${batchNumber}/${batchTotal}（${start + 1}-${start + batch.length}）`);
     await mapWithConcurrency(batch, options.concurrency, async (record) => {
       await processRecordImages(record, previousByLicense.get(record.licenseNumber), options, stats);
@@ -430,6 +469,10 @@ export async function runUpdate(rawOptions = {}) {
       ...meta,
       downloadUrl: options[`source${key[0].toUpperCase()}${key.slice(1)}`]
     }])),
+    imageProgress: {
+      completed: records.flatMap((record) => record.images).filter((image) => image.status !== "unprocessed").length,
+      total: records.reduce((total, record) => total + record.sourceImageUrls.length, 0)
+    },
     records
   };
 

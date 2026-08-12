@@ -3,6 +3,7 @@ import path from "node:path";
 import sharp from "sharp";
 
 const requireData = process.argv.includes("--require-data");
+const requireImagesComplete = process.argv.includes("--require-images-complete");
 const dataPath = path.resolve("data/appearance_data.json");
 const dataset = JSON.parse(await readFile(dataPath, "utf8"));
 
@@ -12,6 +13,7 @@ if (requireData && dataset.records.length < 1_000) throw new Error("正式更新
 
 const licenses = new Set();
 const referencedImages = [];
+const unprocessedImages = [];
 let imageBytes = 0;
 for (const record of dataset.records) {
   if (!record.licenseNumber) throw new Error("record 缺少 licenseNumber");
@@ -22,7 +24,12 @@ for (const record of dataset.records) {
   }
   for (const image of record.images || []) {
     if (image.status === "available" && image.path) referencedImages.push(image.path);
+    if (image.status === "unprocessed") unprocessedImages.push(`${record.licenseNumber}: ${image.sourceUrl}`);
   }
+}
+
+if (requireImagesComplete && unprocessedImages.length) {
+  throw new Error(`仍有 ${unprocessedImages.length.toLocaleString()} 張圖片未處理`);
 }
 
 for (const imagePath of referencedImages) {

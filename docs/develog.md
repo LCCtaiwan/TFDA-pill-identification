@@ -8,6 +8,8 @@
 
 目前追加 `C-004`：修正空資料時外觀按鈕也跟著消失，讓介面與資料首建解耦。
 
+目前追加 `C-005`：改採原作者式可續傳首建，先發布文字資料，再分六批保存圖片進度。
+
 ## Stack And Run Commands
 
 - 前端：HTML5、CSS3、Vanilla JavaScript。
@@ -96,6 +98,13 @@ index.html + app.js + src/pill-search.js
 
 - 顏色與形狀按鈕改用 `pill-search.js` 的固定受控詞彙，不再從已載入記錄動態建立。
 - 空資料集仍會顯示完整可選介面；候選區維持誠實的資料尚未建立提示。
+
+### C-005 — 2026-08-12
+
+- `update-data.mjs` 支援指定圖片批次，批次以連續索引切割且完整覆蓋全部記錄。
+- `--no-images` 會保留來源 URL 未變且檔案仍存在的既有 WebP，不破壞續傳進度。
+- 新首建 workflow 先提交完整文字資料，再逐批提交 JSON 與 WebP；最後要求不存在 `unprocessed` 圖片。
+- `npm run check`：pass；12 tests，0 failure。
 
 ## Accepted / Rejected Outputs
 

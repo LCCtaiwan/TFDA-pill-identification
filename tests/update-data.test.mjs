@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { test } from "node:test";
 import sharp from "sharp";
-import { decodeDatasetBytes, normalizeRecords, writeWebp } from "../tools/update-data.mjs";
+import { decodeDatasetBytes, imageBatchBounds, normalizeRecords, writeWebp } from "../tools/update-data.mjs";
 
 async function fixture(name) {
   return JSON.parse(await readFile(new URL(`./fixtures/${name}.json`, import.meta.url), "utf8"));
@@ -29,6 +29,15 @@ test("normalization 以許可證合併 37、42、43", async () => {
 test("dataset decoder 接受未壓縮 JSON", () => {
   const bytes = new TextEncoder().encode('[{"許可證字號":"A"}]');
   assert.deepEqual(decodeDatasetBytes(bytes, "fixture"), [{ "許可證字號": "A" }]);
+});
+
+test("首建圖片可切成不重疊且完整覆蓋的六批", () => {
+  const bounds = Array.from({ length: 6 }, (_, index) => imageBatchBounds(6_295, index + 1, 6));
+  assert.equal(bounds[0].start, 0);
+  assert.equal(bounds.at(-1).end, 6_295);
+  for (let index = 1; index < bounds.length; index += 1) {
+    assert.equal(bounds[index - 1].end, bounds[index].start);
+  }
 });
 
 test("sharp 產生最長邊 640px 的 WebP", async () => {

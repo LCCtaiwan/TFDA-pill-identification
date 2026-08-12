@@ -4,14 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "17 18 * * 0" # 台灣時間每週一 02:17，避開整點尖峰
-  push:
-    branches: [main]
-    paths:
-      - "tools/update-data.mjs"
-      - "tools/validate-data.mjs"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/update-data.yml"
 
 permissions:
   contents: write
