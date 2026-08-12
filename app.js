@@ -5,15 +5,16 @@ const state = {
   dataset: null,
   records: [],
   results: [],
+  criteriaActive: false,
   draft: new Map()
 };
 
 const elements = {
   form: document.querySelector("#search-form"),
   imprint: document.querySelector("#imprint-input"),
-  color: document.querySelector("#color-select"),
-  shape: document.querySelector("#shape-select"),
-  score: document.querySelector("#score-select"),
+  colors: document.querySelector("#color-options"),
+  shapes: document.querySelector("#shape-options"),
+  scores: document.querySelector("#score-options"),
   reset: document.querySelector("#reset-button"),
   status: document.querySelector("#data-status"),
   resultCount: document.querySelector("#result-count"),
@@ -30,12 +31,19 @@ function textOrMissing(value) {
   return value || "資料未提供";
 }
 
-function addOptions(select, values) {
+function addChoiceOptions(container, values, name) {
+  container.replaceChildren();
   for (const value of [...new Set(values.filter(Boolean))].sort()) {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = value;
-    select.append(option);
+    const label = document.createElement("label");
+    label.className = "choice-chip";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = name;
+    input.value = value;
+    const text = document.createElement("span");
+    text.textContent = value;
+    label.append(input, text);
+    container.append(label);
   }
 }
 
@@ -84,14 +92,11 @@ function renderCard(result) {
 
   const facts = document.createElement("dl");
   facts.className = "facts";
-  const scoreLabels = (result.scores || [])
-    .filter((value) => typeof value === "boolean")
-    .map((value) => value ? "有" : "無");
   for (const [label, value] of [
     ["刻痕／標註", result.imprints],
     ["顏色", result.colors],
     ["形狀", result.shapes],
-    ["分割線", [...new Set(scoreLabels)]],
+    ["刻痕", result.scores],
     ["藥名（成分）", result.genericName],
     ["含量規格", result.strengths],
     ["劑型", result.dosageForm],
@@ -139,12 +144,23 @@ function renderResults() {
   elements.results.replaceChildren();
   const matched = state.results.filter((result) => result.resultGroup === "matched").length;
   const unknown = state.results.length - matched;
-  elements.resultCount.textContent = `${matched} 符合 · ${unknown} 資料不足`;
+  elements.resultCount.textContent = state.criteriaActive
+    ? `${matched} 符合 · ${unknown} 資料不足`
+    : "等待選擇";
 
   if (!state.records.length) {
     const empty = document.createElement("p");
     empty.className = "empty-state";
     empty.textContent = "尚未建立 TFDA 資料。請先在 GitHub Actions 手動執行 Update TFDA data。";
+    elements.results.append(empty);
+    return;
+  }
+
+
+  if (!state.criteriaActive) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "輸入刻字，或點選上方的顏色、形狀、刻痕開始搜尋。";
     elements.results.append(empty);
     return;
   }
@@ -172,14 +188,20 @@ function renderResults() {
 function currentFilters() {
   return {
     imprint: elements.imprint.value,
-    color: elements.color.value,
-    shape: elements.shape.value,
-    score: elements.score.value
+    colors: [...elements.colors.querySelectorAll("input:checked")].map((input) => input.value),
+    shapes: [...elements.shapes.querySelectorAll("input:checked")].map((input) => input.value),
+    score: elements.scores.querySelector("input:checked")?.value || ""
   };
 }
 
+function hasActiveFilters(filters) {
+  return Boolean(filters.imprint.trim() || filters.colors.length || filters.shapes.length || filters.score);
+}
+
 function runSearch() {
-  state.results = searchPills(state.records, currentFilters());
+  const filters = currentFilters();
+  state.criteriaActive = hasActiveFilters(filters);
+  state.results = state.criteriaActive ? searchPills(state.records, filters) : [];
   renderResults();
 }
 
@@ -230,8 +252,8 @@ async function loadData() {
     }
     state.dataset = dataset;
     state.records = dataset.records;
-    addOptions(elements.color, state.records.flatMap((record) => record.colors || []));
-    addOptions(elements.shape, state.records.flatMap((record) => record.shapes || []));
+    addChoiceOptions(elements.colors, state.records.flatMap((record) => record.colors || []), "colors");
+    addChoiceOptions(elements.shapes, state.records.flatMap((record) => record.shapes || []), "shapes");
     elements.status.textContent = dataset.records.length
       ? `已載入 ${dataset.records.length.toLocaleString()} 筆；資料版本 ${dataset.generatedAt ? new Date(dataset.generatedAt).toLocaleString("zh-TW") : "未提供"}${dataset.partial ? "（部分資料）" : ""}`
       : "資料結構已就緒，但尚未執行第一次 TFDA 更新。";

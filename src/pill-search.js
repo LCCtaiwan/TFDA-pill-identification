@@ -57,29 +57,26 @@ function normalizeFilterValue(value) {
     .toLocaleLowerCase("zh-Hant");
 }
 
-function matchListFilter(query, values = []) {
-  const normalizedQuery = normalizeFilterValue(query);
-  if (!normalizedQuery) return { state: "inactive" };
+function matchListFilter(queries, values = []) {
+  const normalizedQueries = (Array.isArray(queries) ? queries : [queries])
+    .map(normalizeFilterValue)
+    .filter(Boolean);
+  if (!normalizedQueries.length) return { state: "inactive" };
 
   const knownValues = values.map(normalizeFilterValue).filter(Boolean);
   if (!knownValues.length) return { state: "unknown" };
-  return knownValues.includes(normalizedQuery)
+  return normalizedQueries.some((query) => knownValues.includes(query))
     ? { state: "match" }
     : { state: "mismatch" };
 }
 
 function matchScoreFilter(query, values = []) {
   if (!query) return { state: "inactive" };
-  const knownValues = values.filter((value) => typeof value === "boolean");
-  const hasUnknown = values.length === 0 || values.some((value) => value === null);
-
-  if (query === "unknown") {
-    return hasUnknown ? { state: "match" } : { state: "mismatch" };
-  }
-
-  const expected = query === "yes";
-  if (knownValues.includes(expected)) return { state: "match" };
-  return hasUnknown ? { state: "unknown" } : { state: "mismatch" };
+  const knownValues = values.map(normalizeFilterValue).filter(Boolean);
+  if (!knownValues.length) return { state: "unknown" };
+  return knownValues.includes(normalizeFilterValue(query))
+    ? { state: "match" }
+    : { state: "mismatch" };
 }
 
 export function searchPills(records, filters = {}) {
@@ -90,9 +87,9 @@ export function searchPills(records, filters = {}) {
   for (const record of records) {
     const checks = [
       ["刻痕／標註", matchImprint(imprintQuery, record.imprints)],
-      ["顏色", matchListFilter(normalizedFilters.color, record.colors)],
-      ["形狀", matchListFilter(normalizedFilters.shape, record.shapes)],
-      ["分割刻痕", matchScoreFilter(normalizedFilters.score, record.scores)]
+      ["顏色", matchListFilter(normalizedFilters.colors ?? normalizedFilters.color, record.colors)],
+      ["形狀", matchListFilter(normalizedFilters.shapes ?? normalizedFilters.shape, record.shapes)],
+      ["刻痕", matchScoreFilter(normalizedFilters.score, record.scores)]
     ];
 
     if (checks.some(([, check]) => check.state === "mismatch")) continue;

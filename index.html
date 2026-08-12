@@ -36,34 +36,31 @@
           <label class="field field-wide">
             <span>刻痕／標註文字</span>
             <input id="imprint-input" name="imprint" type="search" autocomplete="off" placeholder="例如 APO-10、FY T061">
-            <small>比對順序：Exact → Prefix → Contains；單一字元不做 Contains。</small>
           </label>
 
-          <label class="field">
-            <span>顏色</span>
-            <select id="color-select" name="color">
-              <option value="">不限</option>
-            </select>
-          </label>
+          <fieldset class="choice-field field-wide">
+            <legend>顏色（可複選）</legend>
+            <div id="color-options" class="choice-grid" aria-label="顏色選項">
+              <span class="muted">載入選項中…</span>
+            </div>
+          </fieldset>
 
-          <label class="field">
-            <span>形狀</span>
-            <select id="shape-select" name="shape">
-              <option value="">不限</option>
-            </select>
-          </label>
+          <fieldset class="choice-field field-wide">
+            <legend>形狀（可複選）</legend>
+            <div id="shape-options" class="choice-grid" aria-label="形狀選項">
+              <span class="muted">載入選項中…</span>
+            </div>
+          </fieldset>
 
-          <label class="field">
-            <span>分割刻痕</span>
-            <select id="score-select" name="score">
-              <option value="">不限</option>
-              <option value="yes">有分割線</option>
-              <option value="no">無分割線</option>
-              <option value="unknown">資料未提供</option>
-            </select>
-          </label>
-
-          <button class="button button-primary" type="submit">搜尋候選</button>
+          <fieldset class="choice-field field-wide">
+            <legend>刻痕</legend>
+            <div id="score-options" class="choice-grid choice-grid-single" aria-label="刻痕選項">
+              <label class="choice-chip"><input type="radio" name="score" value="" checked><span>不限</span></label>
+              <label class="choice-chip"><input type="radio" name="score" value="無"><span>無</span></label>
+              <label class="choice-chip"><input type="radio" name="score" value="直線"><span>直線</span></label>
+              <label class="choice-chip"><input type="radio" name="score" value="十字"><span>十字</span></label>
+            </div>
+          </fieldset>
         </form>
 
         <p id="data-status" class="data-status" role="status">正在載入 TFDA 資料…</p>

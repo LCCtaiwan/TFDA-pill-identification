@@ -4,6 +4,8 @@
 
 完成 `C-002`：把既有骨架推進為可直接上傳 GitHub 的最小完整藥品外觀搜尋站，包含 TFDA 37／42／43 資料整合、Node.js normalization、分批／增量 WebP 圖片處理、諮詢紀錄、純前端搜尋、每週 Actions、Pages 部署與基本測試。
 
+目前追加 `C-003`：依作者實際網站互動校正顏色／形狀複選、候選即時呈現與 TFDA 刻痕詞彙。
+
 ## Stack And Run Commands
 
 - 前端：HTML5、CSS3、Vanilla JavaScript。
@@ -58,6 +60,12 @@ index.html + app.js + src/pill-search.js
 - 已確認候選可累積成諮詢紀錄；依使用者指定，每顆一行且只輸出「刻痕 學名 商品名 含量規格」，不附標籤或許可證。
 - Actions 的更新 job 可排程或手動觸發；資料有實質變更才 commit。Pages 由獨立 workflow 部署靜態檔案。
 
+### C-003 原站互動核對
+
+- 2026-08-12 實際操作 `https://liangrxdev.github.io/pill-detective-tw/`：顏色與形狀可複選、點選即更新下方候選，刻痕為不限／無／直線／十字。
+- 同類複選採 OR，顏色／形狀／刻痕／刻字之間採 AND；官方未提供欄位仍保留為資料不足候選。
+- 發現舊版把 TFDA 刻痕轉為 boolean 會讓「直線／十字」變成 unknown，故停止尚未完成的第一次雲端匯入，先修正再重跑。
+
 ## Completed Work
 
 ### C-001 — 2026-08-08
@@ -76,6 +84,12 @@ index.html + app.js + src/pill-search.js
 - 真實小批次驗證：第一次處理 2 張；第二次新處理 0、重用 2；WebP 最大邊分別為 582px 與 640px。
 - Playwright 驗證桌機與 390×844 手機版；搜尋、資料不足候選、加入兩筆、複製均通過，console 0 error／0 warning。
 
+### C-003 — 2026-08-12
+
+- 已完成顏色／形狀複選 chips、刻痕單選 chips、無條件開始提示與即時下方結果。
+- 已修正 ETL 直接保留 TFDA 刻痕原值，並新增複選與刻痕詞彙測試。
+- `npm run check`：pass；10 tests，0 failure。
+
 ## Accepted / Rejected Outputs
 
 - Accepted：以 Vanilla JS + PWA 作為 MVP 基礎，因上游 repo 已採同一方向。
@@ -85,7 +99,7 @@ index.html + app.js + src/pill-search.js
 
 ## Current Checkpoint
 
-- `C-002` 本機實作與驗證完成，等待 GitHub 重新授權後建立 remote、推送、啟用 Pages 並觀察第一次完整資料更新。
+- GitHub repository 與 Pages 已建立；準備推送 `C-003` 後重新執行第一次完整資料更新。
 - repository 內的初始資料集刻意保持空白；第一次 Actions 完整更新後才 commit 正式資料，避免把 2 筆驗證資料冒充完整資料。
 
 ## Verification Status
@@ -94,7 +108,8 @@ index.html + app.js + src/pill-search.js
 - JSON schema syntax：pass；`python3 -m json.tool data/appearance_data.json`。
 - JavaScript syntax：pass；四個骨架模組均通過 `node --check`。
 - Git 初始提交：pass；`d66a1fb`，無遠端推送。
-- `npm run check`：pass；8 tests，0 failure。
+- `npm run check`：pass；10 tests，0 failure。
 - TFDA 真實小批次與圖片增量：pass。
 - Playwright 桌機／手機搜尋與諮詢複製：pass；console 0 error／0 warning。
-- GitHub 部署：等待帳號重新授權。
+- GitHub repository：pass；`https://github.com/LCCtaiwan/TFDA-pill-identification`。
+- GitHub Pages 初次空資料站：pass；HTTP 200。完整資料部署待 `C-003` 更新完成。

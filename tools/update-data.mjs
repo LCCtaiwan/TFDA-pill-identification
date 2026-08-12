@@ -47,14 +47,6 @@ function formatNumericValue(value) {
   return text.replace(/(\.\d*?[1-9])0+$/u, "$1").replace(/\.0+$/u, "");
 }
 
-function normalizeScoreValue(value) {
-  const text = cleanText(value);
-  if (!text) return null;
-  if (["有", "Y", "YES", "TRUE", "1"].includes(text.toUpperCase())) return true;
-  if (["無", "没有", "沒有", "N", "NO", "FALSE", "0"].includes(text.toUpperCase())) return false;
-  return null;
-}
-
 function uniqueObjects(items) {
   const seen = new Set();
   return items.filter((item) => {
@@ -124,8 +116,7 @@ export function normalizeRecords({ licenses, appearance, ingredients }) {
 
     const licenseRow = licenseIndex.get(licenseNumber) || {};
     const ingredientRows = ingredientIndex.get(licenseNumber) || [];
-    const scores = splitValues(appearanceRow["刻痕"], { conservative: true })
-      .map(normalizeScoreValue);
+    const scores = splitValues(appearanceRow["刻痕"], { conservative: true });
 
     records.push({
       id: licenseNumber,

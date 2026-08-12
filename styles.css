@@ -101,6 +101,32 @@ a { color: var(--brand-dark); }
 .field-wide { grid-column: 1 / -1; }
 .field small, .muted { color: var(--muted); font-weight: 400; }
 
+.choice-field {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.choice-field legend { margin-bottom: 7px; font-weight: 700; }
+
+.choice-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.choice-chip { position: relative; cursor: pointer; }
+.choice-chip input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.choice-chip span {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  border: 1px solid #b8c8c3;
+  border-radius: 999px;
+  background: white;
+  padding: 7px 14px;
+  font-weight: 700;
+}
+.choice-chip input:checked + span { border-color: var(--brand); color: white; background: var(--brand); }
+.choice-chip input:focus-visible + span { outline: 3px solid rgba(15, 118, 110, 0.2); outline-offset: 2px; }
+
 input, select, textarea {
   width: 100%;
   border: 1px solid #b8c8c3;

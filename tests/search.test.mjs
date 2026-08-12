@@ -20,7 +20,7 @@ const completeRecord = {
   imprints: ["APO-10", "BETA"],
   colors: ["白"],
   shapes: ["圓形"],
-  scores: [true],
+  scores: ["直線"],
   strengths: ["ALPHA 10 MG", "BETA 0.5 MG"],
   ingredients: [
     { name: "ALPHA", amount: "10", unit: "MG", label: "EACH TABLET CONTAINS:" },
@@ -67,6 +67,28 @@ test("已知不符被排除，missing data 保留並排在後方", () => {
   assert.deepEqual(results.map((record) => record.id), ["A", "B"]);
   assert.equal(results[0].resultGroup, "matched");
   assert.deepEqual(results[1].missingFields, ["顏色"]);
+});
+
+test("顏色與形狀可複選，同類選項任一符合即可", () => {
+  const blueOval = {
+    ...completeRecord,
+    id: "C",
+    licenseNumber: "C",
+    colors: ["藍"],
+    shapes: ["橢圓形"]
+  };
+  const results = searchPills([completeRecord, blueOval], {
+    colors: ["白", "淡黃色"],
+    shapes: ["圓形", "三角形"]
+  });
+  assert.deepEqual(results.map((record) => record.id), ["A"]);
+});
+
+test("刻痕依 TFDA 的無、直線、十字值篩選", () => {
+  const noScore = { ...completeRecord, id: "C", licenseNumber: "C", scores: ["無"] };
+  const results = searchPills([missingRecord, noScore, completeRecord], { score: "直線" });
+  assert.deepEqual(results.map((record) => record.id), ["A", "B"]);
+  assert.deepEqual(results[1].missingFields, ["刻痕"]);
 });
 
 test("諮詢文字每顆一行，只含刻痕、學名、商品名與含量規格", () => {

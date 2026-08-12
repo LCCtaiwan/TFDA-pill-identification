@@ -12,7 +12,8 @@ GL 500 Metformin Glucophage 500 mg/tab
 
 - 從 TFDA 37、42、43 三份官方資料，以許可證字號關聯商品名、主成分、含量、劑型、外觀與圖片。
 - 刻痕／標註採 Exact → Prefix → Contains；單一字元不做 Contains。
-- 可依顏色、形狀與分割刻痕複合搜尋。
+- 顏色與形狀採可複選按鈕；同類選項任一符合即可，跨類條件同時縮小候選。
+- 刻痕依 TFDA 原值提供「不限、無、直線、十字」按鈕；點選後候選立即顯示在下方。
 - missing data 採三態：官方已提供且符合、已提供但不符、官方未提供。只有已知不符直接排除；未提供者保留為較低排序候選並清楚標記。
 - 可累積多筆已確認藥品；剪貼簿每顆一行，只輸出刻痕、學名、商品名、含量規格。重新整理後清空，不保存病人資料。
 - 圖片使用 `sharp` 等比例縮小至最長邊 640px、轉 WebP；原始大圖不落地。
@@ -114,7 +115,7 @@ node --check app.js
 node --check tools/update-data.mjs
 ```
 
-目前單元測試涵蓋：刻痕 normalization、Exact／Prefix／Contains、單字元規則、missing-data 保留、諮詢文字、三資料集合併與 640px WebP。
+目前單元測試涵蓋：刻痕 normalization、Exact／Prefix／Contains、單字元規則、顏色／形狀複選、TFDA 刻痕值、missing-data 保留、諮詢文字、三資料集合併與 640px WebP。
 
 ## 安全與限制
 

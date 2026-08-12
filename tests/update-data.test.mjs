@@ -21,7 +21,7 @@ test("normalization 以許可證合併 37、42、43", async () => {
   assert.equal(records[0].brandName, "測試錠10毫克");
   assert.equal(records[0].genericName, "ALPHA；BETA");
   assert.deepEqual(records[0].colors, ["白", "紅"]);
-  assert.deepEqual(records[0].scores, [true, false]);
+  assert.deepEqual(records[0].scores, ["直線", "無"]);
   assert.deepEqual(records[0].strengths, ["ALPHA 10 MG", "BETA 0.5 MG"]);
   assert.deepEqual(records[1].imprints, []);
 });
