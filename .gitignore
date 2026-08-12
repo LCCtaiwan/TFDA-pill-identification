@@ -15,9 +15,13 @@ data/generated/
 data/local/
 *.log
 coverage/
+work/
+output/
+.playwright-cli/
+data/*.tmp
+images/*.tmp
 
 # OS/editor files
 .DS_Store
 .idea/
 .vscode/
-

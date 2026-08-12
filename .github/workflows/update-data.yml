@@ -1,0 +1,59 @@
+name: Update TFDA data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 18 * * 0" # 台灣時間每週一 02:17，避開整點尖峰
+  push:
+    branches: [main]
+    paths:
+      - "tools/update-data.mjs"
+      - "tools/validate-data.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/update-data.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tfda-data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Download, normalize, and process images
+        run: npm run update:data -- --batch-size 50 --concurrency 4
+
+      - name: Validate generated data
+        run: npm run validate:data -- --require-data
+
+      - name: Commit changed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/appearance_data.json images
+          if git diff --staged --quiet; then
+            echo "TFDA 資料與圖片沒有實質變更。"
+          else
+            git commit -m "C-002 chore: update TFDA data $(date +'%Y-%m-%d')"
+            git push
+          fi

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'"
+    >
+    <title>TFDA 藥品外觀辨識</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="shell">
+        <p class="eyebrow">TFDA 公開資料・藥師人工核對</p>
+        <h1>藥品外觀辨識</h1>
+        <p class="hero-copy">依刻痕／標註、顏色、形狀與分割線縮小候選，將確認後的藥品整理成可貼入諮詢的文字。</p>
+      </div>
+    </header>
+
+    <main class="shell layout">
+      <section class="panel search-panel" aria-labelledby="search-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">步驟 1</p>
+            <h2 id="search-title">輸入藥品外觀</h2>
+          </div>
+          <button id="reset-button" class="button button-quiet" type="button">清除條件</button>
+        </div>
+
+        <form id="search-form" class="search-form">
+          <label class="field field-wide">
+            <span>刻痕／標註文字</span>
+            <input id="imprint-input" name="imprint" type="search" autocomplete="off" placeholder="例如 APO-10、FY T061">
+            <small>比對順序：Exact → Prefix → Contains；單一字元不做 Contains。</small>
+          </label>
+
+          <label class="field">
+            <span>顏色</span>
+            <select id="color-select" name="color">
+              <option value="">不限</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>形狀</span>
+            <select id="shape-select" name="shape">
+              <option value="">不限</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>分割刻痕</span>
+            <select id="score-select" name="score">
+              <option value="">不限</option>
+              <option value="yes">有分割線</option>
+              <option value="no">無分割線</option>
+              <option value="unknown">資料未提供</option>
+            </select>
+          </label>
+
+          <button class="button button-primary" type="submit">搜尋候選</button>
+        </form>
+
+        <p id="data-status" class="data-status" role="status">正在載入 TFDA 資料…</p>
+      </section>
+
+      <section class="panel results-panel" aria-labelledby="results-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">步驟 2</p>
+            <h2 id="results-title">核對候選</h2>
+          </div>
+          <p id="result-count" class="count-badge">0 筆</p>
+        </div>
+        <p class="safety-note">資料未提供的欄位不會被當成「不符合」，而會列在較後方的資料不足候選。請以包裝、藥袋、許可證或藥師專業判斷做最終確認。</p>
+        <div id="results" class="result-list"></div>
+      </section>
+
+      <aside class="panel consultation-panel" aria-labelledby="consultation-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">步驟 3</p>
+            <h2 id="consultation-title">諮詢紀錄</h2>
+          </div>
+          <button id="clear-draft-button" class="button button-quiet" type="button">清空</button>
+        </div>
+        <p class="muted">從候選卡加入已確認的藥品；本頁不保存病人資料，重新整理後清空。</p>
+        <div id="draft-items" class="draft-items"></div>
+        <label class="field field-wide">
+          <span>可貼入諮詢的文字</span>
+          <textarea id="consultation-draft" rows="12" readonly placeholder="尚未加入藥品"></textarea>
+        </label>
+        <button id="copy-draft-button" class="button button-primary button-full" type="button" disabled>複製到剪貼簿</button>
+        <p id="copy-status" class="copy-status" role="status"></p>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <p>資料來源：衛生福利部食品藥物管理署公開資料。本站為辨識輔助，不可取代醫師診斷、處方或藥師核對。</p>
+        <p><a href="https://data.gov.tw/dataset/9120">藥品外觀資料集</a> · <a href="https://data.gov.tw/dataset/9123">未註銷藥品許可證</a> · <a href="https://data.gov.tw/dataset/9121">詳細處方成分</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

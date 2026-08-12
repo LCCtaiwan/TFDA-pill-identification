@@ -151,3 +151,22 @@ Content-Security-Policy:
 - 安全測試：掃描版本庫與建置輸出是否含 key；確認 CSP 阻擋 inline script。
 - 實機驗收：iOS Safari 與 Android Chrome，至少測試 0、1、10、100 顆及不同光線背景。
 
+## 9. C-002：TFDA 外觀資料管線
+
+- 官方來源：`https://data.fda.gov.tw/data/opendata/export/42/json`（ZIP 內含 UTF-8 JSON array）。
+- canonical output：`data/appearance_data.json`；圖片輸出至 `images/*.webp`。
+- 正規化保留原始中文值，並產生前端比對用陣列；空字串與 `null` 統一視為 missing。
+- 刻痕欄轉為 `true`、`false`、`null` 三態；標註一／二拆成刻字 token，不把「無」當成刻字。
+- 圖片檔名以許可證字號的 SHA-256 前綴產生，並依前 2 碼分成 `images/xx/`，避免單一目錄超過 GitHub 建議的 3,000 entries；圖片 URL 改變時穩定覆寫同一位置。
+- 只有成功產出新 WebP 後才更新該筆圖片 metadata；失敗時若舊圖仍對應舊 URL，不冒充新圖。
+- full run 必須通過最低筆數與許可證覆蓋率 gate，避免來源 schema 改變時以空資料覆蓋正常資料。
+- 圖片總量超過 950 MiB 時中止 commit，保留 GitHub Pages 1 GB 上限的餘裕。
+
+## 10. C-002：搜尋語意
+
+每個使用中的條件回傳 `match`、`mismatch` 或 `unknown`：
+
+- 任一已知欄位 `mismatch`：排除。
+- 沒有 mismatch，但至少一欄 `unknown`：保留為資料不足候選，排在完整匹配之後。
+- 刻字 match 依 Exact、Prefix、Contains 排序；query token 長度為 1 時不執行 Contains。
+- UI 限制一次渲染筆數，但保留完整命中／資料不足計數，避免大量 DOM 節點拖慢手機。

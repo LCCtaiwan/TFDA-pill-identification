@@ -2,8 +2,8 @@
 
 ## 目前狀態
 
-- Change ID：`C-001`
-- 狀態：專案骨架與規格文件完成，尚未進入功能實作。
+- Change ID：`C-002`
+- 狀態：本機實作與驗證完成，正在部署 GitHub 與 GitHub Pages。
 - Git：已初始化並完成初始 commit，無遠端推送。
 
 ## 已完成
@@ -12,15 +12,16 @@
 - 建立 `src/`、`src/workers/`、`data/`、`public/`、`tests/` 目錄。
 - 建立 `appearance_data.json` 與三個核心模組／Worker 的最小介面骨架。
 - 定義上游 `liangRXdev/TFDA-drug-info-search` 的資料整合方向。
+- 完成 TFDA 37／42／43 合併、批次／增量 WebP、純前端搜尋與諮詢紀錄。
+- 完成每週／手動更新 workflow、Pages workflow、8 項測試與桌機／手機瀏覽器驗收。
 
 ## 進行中
 
-- 無；下一階段是先完成 PWA shell 與離線資料載入，再接入測試資料。
+- GitHub CLI 重新授權、建立 remote、推送與首次 Actions／Pages 觀察。
 
 ## 下一步
 
-1. 補上 `public/index.html`、manifest、CSP 與 Service Worker。
-2. 接入一份可驗證的 TFDA 資料快照與資料版本檢查。
-3. 實作刻痕搜尋與固定 fixture 測試。
-4. 實作計數 Worker，建立基準照片與效能測試。
-5. 最後接 Gemini BYOK adapter 與線上／離線降級。
+1. 完成 GitHub 與 Pages 部署，確認第一次完整資料更新。
+2. 監看正式圖片總量與 Pages 1 GB 安全門檻。
+3. 再回到 PWA shell／離線快取切片。
+4. 後續才實作計數 Worker 與 Gemini adapter。

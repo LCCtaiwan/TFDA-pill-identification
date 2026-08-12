@@ -1,0 +1,20 @@
+{
+  "name": "tfda-pill-identification",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "update:data": "node tools/update-data.mjs",
+    "validate:data": "node tools/validate-data.mjs",
+    "check": "npm test && npm run validate:data",
+    "serve": "node tools/serve.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3",
+    "sharp": "0.35.3"
+  }
+}

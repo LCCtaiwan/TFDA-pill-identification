@@ -1,6 +1,23 @@
 {
-  "schema_version": "0.1.0",
-  "source": "TFDA",
-  "updated_at": null,
+  "schemaVersion": "1.0.0",
+  "generatedAt": null,
+  "partial": false,
+  "sources": {
+    "licenses": {
+      "datasetId": 37,
+      "name": "未註銷藥品許可證資料集",
+      "downloadUrl": "https://data.fda.gov.tw/data/opendata/export/37/json"
+    },
+    "appearance": {
+      "datasetId": 42,
+      "name": "藥品外觀資料集",
+      "downloadUrl": "https://data.fda.gov.tw/data/opendata/export/42/json"
+    },
+    "ingredients": {
+      "datasetId": 43,
+      "name": "藥品詳細處方成分資料集",
+      "downloadUrl": "https://data.fda.gov.tw/data/opendata/export/43/json"
+    }
+  },
   "records": []
 }
