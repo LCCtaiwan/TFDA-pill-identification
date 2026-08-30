@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-08-23T18:51:22.860Z",
+  "generatedAt": "2026-08-30T21:13:21.982Z",
   "partial": false,
   "sources": {
     "licenses": {
@@ -20,8 +20,8 @@
     }
   },
   "imageProgress": {
-    "completed": 6803,
-    "total": 6803
+    "completed": 6811,
+    "total": 6811
   },
   "records": [
     {
@@ -55115,6 +55115,55 @@
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC023534%E8%99%9F"
     },
     {
+      "id": "衛署藥製字第023569號",
+      "licenseNumber": "衛署藥製字第023569號",
+      "brandName": "\"福元\"匹洛康膠囊20毫克",
+      "nameEn": "PYROCAM CAPSULES 20MG \"F.Y.\"",
+      "genericName": "PIROXICAM",
+      "dosageForm": "膠囊劑",
+      "package": "盒裝;;瓶裝",
+      "imprints": [
+        "PC 20"
+      ],
+      "colors": [
+        "紅"
+      ],
+      "shapes": [
+        "膠囊"
+      ],
+      "scores": [
+        "無"
+      ],
+      "dimensions": [
+        "16"
+      ],
+      "ingredients": [
+        {
+          "name": "PIROXICAM",
+          "amount": "20",
+          "unit": "MG",
+          "amountDescription": "20",
+          "label": "EACH CAPSULE CONTAINS:"
+        }
+      ],
+      "strengths": [
+        "PIROXICAM 20 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/17c627ea-a417-4071-9238-7d8e77c955dc?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/17c627ea-a417-4071-9238-7d8e77c955dc?c=o",
+          "path": "images/aa/aa976bbdaf4703227e46-01.webp",
+          "status": "available",
+          "width": 640,
+          "height": 569
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC023569%E8%99%9F"
+    },
+    {
       "id": "衛署藥製字第023589號",
       "licenseNumber": "衛署藥製字第023589號",
       "brandName": "潰康寧膠囊(斯比樂)",
@@ -106900,6 +106949,62 @@
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC035836%E8%99%9F"
     },
     {
+      "id": "衛署藥製字第035838號",
+      "licenseNumber": "衛署藥製字第035838號",
+      "brandName": "健比得膠囊300毫克(健菲布脂)",
+      "nameEn": "GEMBIT CAPSULES 300MG (GEMFIBROZIL)",
+      "genericName": "GEMFIBROZIL",
+      "dosageForm": "膠囊劑",
+      "package": "盒裝;;瓶裝",
+      "imprints": [],
+      "colors": [
+        "紅",
+        "白"
+      ],
+      "shapes": [
+        "膠囊"
+      ],
+      "scores": [
+        "無"
+      ],
+      "dimensions": [
+        "22"
+      ],
+      "ingredients": [
+        {
+          "name": "GEMFIBROZIL",
+          "amount": "300",
+          "unit": "MG",
+          "amountDescription": "",
+          "label": "EACH CAPSULES CONTAINS:"
+        }
+      ],
+      "strengths": [
+        "GEMFIBROZIL 300 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/a9c1a0c2-dc8e-4655-95f3-f5801a5c8ebc?c=o",
+        "https://mcp.fda.gov.tw/insert/shapeImg/d553863a-b010-496a-bcda-21b5ad3a2c4e_img_1?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/a9c1a0c2-dc8e-4655-95f3-f5801a5c8ebc?c=o",
+          "path": "images/0b/0b111c2e56a2b4c31326-01.webp",
+          "status": "available",
+          "width": 640,
+          "height": 427
+        },
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/d553863a-b010-496a-bcda-21b5ad3a2c4e_img_1?c=o",
+          "path": "images/0b/0b111c2e56a2b4c31326-02.webp",
+          "status": "available",
+          "width": 640,
+          "height": 480
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC035838%E8%99%9F"
+    },
+    {
       "id": "衛署藥製字第035843號",
       "licenseNumber": "衛署藥製字第035843號",
       "brandName": "\"黃氏\"寶美鈣錠",
@@ -151242,6 +151347,55 @@
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC043953%E8%99%9F"
     },
     {
+      "id": "衛署藥製字第043961號",
+      "licenseNumber": "衛署藥製字第043961號",
+      "brandName": "替你舒壓錠2公絲〝五洲〞",
+      "nameEn": "TERAZOSIN TABLETS 2MG \"U-CHU\"",
+      "genericName": "TERAZOSIN (HCL 2H2O)",
+      "dosageForm": "錠劑",
+      "package": "鋁箔盒裝;;塑膠瓶裝",
+      "imprints": [
+        "UC 13"
+      ],
+      "colors": [
+        "橘"
+      ],
+      "shapes": [
+        "圓形"
+      ],
+      "scores": [
+        "直線"
+      ],
+      "dimensions": [
+        "7.7"
+      ],
+      "ingredients": [
+        {
+          "name": "TERAZOSIN (HCL 2H2O)",
+          "amount": "2",
+          "unit": "MG",
+          "amountDescription": "2.0",
+          "label": "EACH TABLET CONTAINS:"
+        }
+      ],
+      "strengths": [
+        "TERAZOSIN (HCL 2H2O) 2 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/9849da75-53c0-442f-a650-fafde268fc14?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/9849da75-53c0-442f-a650-fafde268fc14?c=o",
+          "path": "images/26/2697bb2ae42df717efa6-01.webp",
+          "status": "available",
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC043961%E8%99%9F"
+    },
+    {
       "id": "衛署藥製字第043966號",
       "licenseNumber": "衛署藥製字第043966號",
       "brandName": "\"生達\" 克那每欣膜衣錠250公絲",
@@ -152543,6 +152697,55 @@
         }
       ],
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC044087%E8%99%9F"
+    },
+    {
+      "id": "衛署藥製字第044091號",
+      "licenseNumber": "衛署藥製字第044091號",
+      "brandName": "美飛舒肌錠200公絲〝五洲〞",
+      "nameEn": "MEPHENOXALONE TABLETS 200MG \"U-CHU\"",
+      "genericName": "MEPHENOXALONE",
+      "dosageForm": "錠劑",
+      "package": "塑膠瓶裝;;鋁箔盒裝",
+      "imprints": [
+        "UC 16"
+      ],
+      "colors": [
+        "白"
+      ],
+      "shapes": [
+        "圓形"
+      ],
+      "scores": [
+        "直線"
+      ],
+      "dimensions": [
+        "10.1"
+      ],
+      "ingredients": [
+        {
+          "name": "MEPHENOXALONE",
+          "amount": "200",
+          "unit": "MG",
+          "amountDescription": "200",
+          "label": "EACH TABLET CONTAINS:"
+        }
+      ],
+      "strengths": [
+        "MEPHENOXALONE 200 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/f5f9e246-2436-49f1-ba0a-964fe9acd0bf?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/f5f9e246-2436-49f1-ba0a-964fe9acd0bf?c=o",
+          "path": "images/1e/1e4481d3a553c62b2fed-01.webp",
+          "status": "available",
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC044091%E8%99%9F"
     },
     {
       "id": "衛署藥製字第044094號",
@@ -172489,6 +172692,56 @@
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC047346%E8%99%9F"
     },
     {
+      "id": "衛署藥製字第047347號",
+      "licenseNumber": "衛署藥製字第047347號",
+      "brandName": "\"賽華陀\" 力膚敏膠囊",
+      "nameEn": "LIFUMIN CAPSULES \"SAI WA TO\"",
+      "genericName": "BETAMETHASONE",
+      "dosageForm": "膠囊劑",
+      "package": "鋁箔盒裝;;塑膠瓶裝",
+      "imprints": [
+        "SHT"
+      ],
+      "colors": [
+        "灰",
+        "白"
+      ],
+      "shapes": [
+        "膠囊"
+      ],
+      "scores": [
+        "無"
+      ],
+      "dimensions": [
+        "19"
+      ],
+      "ingredients": [
+        {
+          "name": "BETAMETHASONE",
+          "amount": "0.5",
+          "unit": "MG",
+          "amountDescription": "",
+          "label": "EACH CAPSULE CONTAINS:(內容物白色)"
+        }
+      ],
+      "strengths": [
+        "BETAMETHASONE 0.5 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/5ae85f29-f470-4f2f-8842-a891c550091e?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/5ae85f29-f470-4f2f-8842-a891c550091e?c=o",
+          "path": "images/c1/c1aafdd324b80e598927-01.webp",
+          "status": "available",
+          "width": 595,
+          "height": 640
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E7%BD%B2%E8%97%A5%E8%A3%BD%E5%AD%97%E7%AC%AC047347%E8%99%9F"
+    },
+    {
       "id": "衛署藥製字第047348號",
       "licenseNumber": "衛署藥製字第047348號",
       "brandName": "\"生達\" 淨脂膜衣錠20毫克",
@@ -188910,8 +189163,8 @@
         "直線"
       ],
       "dimensions": [
-        "19",
-        "18"
+        "18",
+        "19"
       ],
       "ingredients": [
         {
@@ -311196,6 +311449,53 @@
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E9%83%A8%E8%97%A5%E8%BC%B8%E5%AD%97%E7%AC%AC027318%E8%99%9F"
     },
     {
+      "id": "衛部藥輸字第027319號",
+      "licenseNumber": "衛部藥輸字第027319號",
+      "brandName": "克顯佳注射劑",
+      "nameEn": "Clariscan 0.5 mmol/ml Solution for Injection",
+      "genericName": "DOTA；GADOLINIUM OXIDE",
+      "dosageForm": "注射液劑",
+      "package": "玻璃瓶裝;;盒裝;;預裝針筒",
+      "imprints": [],
+      "colors": [],
+      "shapes": [],
+      "scores": [],
+      "dimensions": [],
+      "ingredients": [
+        {
+          "name": "DOTA",
+          "amount": "202.46",
+          "unit": "MG",
+          "amountDescription": "",
+          "label": "Each ml contains:"
+        },
+        {
+          "name": "GADOLINIUM OXIDE",
+          "amount": "90.62",
+          "unit": "MG",
+          "amountDescription": "",
+          "label": "Each ml contains:"
+        }
+      ],
+      "strengths": [
+        "DOTA 202.46 MG",
+        "GADOLINIUM OXIDE 90.62 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/9f69094c-c30b-468b-9031-8a9feecb2f2c?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/9f69094c-c30b-468b-9031-8a9feecb2f2c?c=o",
+          "path": "images/67/67cc0ec61b663b06b478-01.webp",
+          "status": "available",
+          "width": 480,
+          "height": 640
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E9%83%A8%E8%97%A5%E8%BC%B8%E5%AD%97%E7%AC%AC027319%E8%99%9F"
+    },
+    {
       "id": "衛部藥輸字第027320號",
       "licenseNumber": "衛部藥輸字第027320號",
       "brandName": "擊癌利200毫克膜衣錠",
@@ -315911,6 +316211,53 @@
         }
       ],
       "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E9%83%A8%E8%97%A5%E8%BC%B8%E5%AD%97%E7%AC%AC027829%E8%99%9F"
+    },
+    {
+      "id": "衛部藥輸字第027833號",
+      "licenseNumber": "衛部藥輸字第027833號",
+      "brandName": "暢穩力錠5毫克",
+      "nameEn": "Bisocor Tablet 5mg",
+      "genericName": "BISOPROLOL FUMARATE",
+      "dosageForm": "錠劑",
+      "package": "PVDC鋁箔盒裝",
+      "imprints": [],
+      "colors": [
+        "黃"
+      ],
+      "shapes": [
+        "圓形"
+      ],
+      "scores": [
+        "直線"
+      ],
+      "dimensions": [
+        "1"
+      ],
+      "ingredients": [
+        {
+          "name": "BISOPROLOL FUMARATE",
+          "amount": "5",
+          "unit": "MG",
+          "amountDescription": "",
+          "label": "Each Tablet contains:"
+        }
+      ],
+      "strengths": [
+        "BISOPROLOL FUMARATE 5 MG"
+      ],
+      "sourceImageUrls": [
+        "https://mcp.fda.gov.tw/insert/shapeImg/6b4eeb6e-8cb4-4a7b-b3d8-957273c7475f?c=o"
+      ],
+      "images": [
+        {
+          "sourceUrl": "https://mcp.fda.gov.tw/insert/shapeImg/6b4eeb6e-8cb4-4a7b-b3d8-957273c7475f?c=o",
+          "path": "images/55/5552844150f758347b33-01.webp",
+          "status": "available",
+          "width": 481,
+          "height": 546
+        }
+      ],
+      "tfdaDetailUrl": "https://mcp.fda.gov.tw/im_detail_1/%E8%A1%9B%E9%83%A8%E8%97%A5%E8%BC%B8%E5%AD%97%E7%AC%AC027833%E8%99%9F"
     },
     {
       "id": "衛部藥輸字第027843號",
